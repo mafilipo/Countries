@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import HomePage from "./pages/homePage";
+import CountriesDetailPage from "./pages/countriesDetails";
+import Header from "./components/header";
+import {
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+  BrowserRouter,
+} from "react-router-dom";
 
 function App() {
+  const [dark, setDark] = useState(false);
+  const changeTheme = () => setDark(!dark);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={"theme " + (dark ? "theme--dark" : "theme--default")}>
+      <div className="base">
+        <Header changeTheme={changeTheme} dark={dark} />
+        <Switch>
+          <Route path="/" component={HomePage} />
+          <Route path="/country/alpha3Code" component={CountriesDetailPage} />
+
+          <Redirect to="/" />
+        </Switch>
+      </div>
+      Hello
     </div>
   );
 }
